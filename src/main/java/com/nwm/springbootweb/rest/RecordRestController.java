@@ -1,17 +1,18 @@
 package com.nwm.springbootweb.rest;
 
 import com.nwm.springbootweb.model.Record;
-import java.util.ArrayList;
+import com.nwm.springbootweb.processor.RecordProcessor;
+import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,51 +20,91 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecordRestController {
 	private static final Logger logger = LoggerFactory.getLogger(RecordRestController.class);
 	
-	@GetMapping("/hello")
-	public String hello() {
-		return "Hello World!";
+	@Autowired
+	private HttpServletRequest request;
+	
+	@Autowired
+	private RecordProcessor processor;
+	
+	@GetMapping("/test")
+	public String test() {
+		return "Test successful";
 	}
 	
-	@RequestMapping(value="/byid", method=RequestMethod.POST)
-	public ResponseEntity<Record> getRecordById(@RequestBody String id) {
-		logger.info("********** id: " + id);
-		HttpStatus status = HttpStatus.OK;
-		long longId = 0;
-		Record r = null;
+	@GetMapping("/gettest/{param}")
+	public String getTest(@PathVariable("param") String param) {
+		return "Get test successful, input param: " + param;
+	}
+	
+	@PostMapping("/byid")
+	public RestResponse<Record> getRecordById(@RequestBody String id) throws Exception {
+		logger.info("********** /byid, id: " + id);
 		
-		try {
-			longId = Long.parseLong(id);
-			r = new Record(longId, "Metallica", "Kill Em All", "LP");
-		} catch (Exception e) {
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-				
-		return new ResponseEntity<Record>(r, status);
+		Record r = processor.get(id);
+		
+		RestResponse<Record> response = new RestResponse<Record>(
+				RestResponse.Status.OK,
+				request.getRequestURL().toString(),
+				new Date(),
+				r);
+		
+		return response;
 	}
 	
-	@RequestMapping(value="/list", method=RequestMethod.POST)
-	public ResponseEntity<List<Record>> getRecordList() {
-		List<Record> list = new ArrayList<Record>();
-		list.add(new Record(0, "Metallica", "Kill Em All", "LP"));
-		list.add(new Record(1, "Metallica", "Ride the Lightning", "LP"));
-		list.add(new Record(2, "Metallica", "Master of Puppets", "LP"));
-		list.add(new Record(3, "Metallica", "And Justice for All", "LP"));
-		list.add(new Record(4, "Metallica", "Black Album", "LP"));
-		return new ResponseEntity<List<Record>>(list, HttpStatus.OK);
+	@PostMapping("/list")
+	public RestResponse<List<Record>> getRecordList() throws Exception {
+		logger.info("********** /list");
+		
+		List<Record> list = processor.getList();
+		
+		RestResponse<List<Record>> response = new RestResponse<List<Record>>(
+				RestResponse.Status.OK,
+				request.getRequestURL().toString(),
+				new Date(),
+				list);
+		
+		return response;
 	}
 	
-	@RequestMapping(value="/insert", method=RequestMethod.POST)
-	public ResponseEntity<Record> insertRecord(@RequestBody Record record) {
-		return new ResponseEntity<Record>(HttpStatus.OK);
+	@PostMapping("/insert")
+	public RestResponse<Record> insertRecord(@RequestBody Record record) throws Exception {
+		logger.info("********** /insert, record: " + record);
+		
+		processor.insert(record);
+		
+		RestResponse<Record> response = new RestResponse<Record>(
+				RestResponse.Status.OK,
+				request.getRequestURL().toString(),
+				new Date());
+		
+		return response;
 	}
 	
-	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public ResponseEntity<Record> updateRecord(@RequestBody Record record) {
-		return new ResponseEntity<Record>(HttpStatus.OK);
+	@PostMapping("/update")
+	public RestResponse<Record> updateRecord(@RequestBody Record record) throws Exception {
+		logger.info("********** /update, record: " + record);
+		
+		processor.update(record);
+		
+		RestResponse<Record> response = new RestResponse<Record>(
+				RestResponse.Status.OK,
+				request.getRequestURL().toString(),
+				new Date());
+		
+		return response;
 	}
 	
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public ResponseEntity<Record> deleteRecord(long id) {
-		return new ResponseEntity<Record>(HttpStatus.OK);
+	@PostMapping("/delete")
+	public RestResponse<Record> deleteRecord(@RequestBody String id) throws Exception {
+		logger.info("********** /delete, id: " + id);
+		
+		processor.delete(id);
+		
+		RestResponse<Record> response = new RestResponse<Record>(
+				RestResponse.Status.OK,
+				request.getRequestURL().toString(),
+				new Date());
+		
+		return response;
 	}
 }

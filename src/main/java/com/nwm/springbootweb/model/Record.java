@@ -5,15 +5,17 @@ public class Record {
 	private String artist;
 	private String album;
 	private String type;
+	private int year;
 	
 	public Record() {}
 	
-	public Record(long id, String artist, String album, String type) {
+	public Record(long id, String artist, String album, String type, int year) {
 		super();
 		this.id = id;
 		this.artist = artist;
 		this.album = album;
 		this.type = type;
+		this.year = year;
 	}
 	public long getId() {
 		return id;
@@ -38,5 +40,11 @@ public class Record {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public int getYear() {
+		return year;
+	}
+	public void setYear(int year) {
+		this.year = year;
 	}
 }
