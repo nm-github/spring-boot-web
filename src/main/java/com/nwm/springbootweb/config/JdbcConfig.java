@@ -12,7 +12,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 @ComponentScan(basePackages="com.nwm.springbootweb")
 public class JdbcConfig {
-
+	
 	@Autowired
     private Environment env;
 	

@@ -1,26 +1,26 @@
 package com.nwm.springbootweb.model;
 
 public class Record {
-	private long id;
+	private String id;
 	private String artist;
 	private String album;
 	private String type;
-	private int year;
+	private String year;
 	
 	public Record() {}
 	
-	public Record(long id, String artist, String album, String type, int year) {
-		super();
+	public Record(String id, String artist, String album, String type, String year) {
 		this.id = id;
 		this.artist = artist;
 		this.album = album;
 		this.type = type;
 		this.year = year;
 	}
-	public long getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getArtist() {
@@ -41,10 +41,10 @@ public class Record {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 }

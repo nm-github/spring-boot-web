@@ -9,11 +9,16 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 public class SpringBootWebApplication extends SpringBootServletInitializer {
-
 	private static final Logger logger = LoggerFactory.getLogger(SpringBootWebApplication.class);
 	
 	public static void main(String[] args) {
-		logger.info("********** Starting the motherfucking spring boot app **********");
+//		logger.info("********** Starting the motherfucking spring boot web app **********\r\n" +
+//				" ____    ____     ___    ____    _   _\r\n" + 
+//				"|  _ \\  |  _ \\   / _ \\  |  _ \\  | | | |\r\n" + 
+//				"| |_| | | |_| | | | | | | | | | | | | |\r\n" + 
+//				"|  __/  |    /  | | | | | | | | |_| |_|\r\n" + 
+//				"| |     | |\\ \\  | |_| | | |_| |  _   _\r\n" + 
+//				"|_|     |_| \\_\\  \\___/  |____/	|_| |_|");
 		SpringApplication.run(SpringBootWebApplication.class, args);
 	}
 //	

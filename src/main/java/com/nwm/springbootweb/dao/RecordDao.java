@@ -19,8 +19,17 @@ public class RecordDao {
 		return record;
 	}
 	
-	public List<Record> getAll() {
-		List<Record> list = jdbcTemplate.query("select * from record",
+	public List<Record> getAll(String sortOption) {
+		String sql = "select * from record";
+		
+		if ("1".equals(sortOption))
+			sql += " order by artist, year";
+		else if ("2".equals(sortOption))
+			sql += " order by artist, album";
+		else if ("3".equals(sortOption))
+			sql += " order by year, artist, album";
+		
+		List<Record> list = jdbcTemplate.query(sql,
 				new BeanPropertyRowMapper<Record>(Record.class));
 		return list;
 	}

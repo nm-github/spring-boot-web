@@ -1,8 +1,9 @@
 package com.nwm.springbootweb.rest;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class RestResponse<T> {
 	public enum Status {
@@ -10,22 +11,24 @@ public class RestResponse<T> {
 	}
 	private Status status;
 	private String requestUrl;
-	private Date timestamp;
+	private String timestamp;
 	private T response;
-	private Exception exception;
-	private List<Map<String, String>> errorMessageList;
+	private List<String> errorMessageList;
 	
-	public RestResponse() {	
+	public RestResponse() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		timestamp = sdf.format(new Date());
+		errorMessageList = new ArrayList<String>();
 	}
-	public RestResponse(Status s, String u, Date d) {
+	public RestResponse(Status s, String u) {
+		this();
 		status = s;
 		requestUrl = u;
-		timestamp = d;
 	}
-	public RestResponse(Status s, String u, Date d, T r) {
+	public RestResponse(Status s, String u, T r) {
+		this();
 		status = s;
 		requestUrl = u;
-		timestamp = d;
 		response = r;
 	}
 	
@@ -41,10 +44,10 @@ public class RestResponse<T> {
 	public void setRequestUrl(String requestUrl) {
 		this.requestUrl = requestUrl;
 	}
-	public Date getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 	public T getResponse() {
@@ -53,16 +56,10 @@ public class RestResponse<T> {
 	public void setResponse(T response) {
 		this.response = response;
 	}
-	public Exception getException() {
-		return exception;
-	}
-	public void setException(Exception exception) {
-		this.exception = exception;
-	}
-	public List<Map<String, String>> getErrorMessageList() {
+	public List<String> getErrorMessageList() {
 		return errorMessageList;
 	}
-	public void setErrorMessageList(List<Map<String, String>> errorMessageList) {
+	public void setErrorMessageList(List<String> errorMessageList) {
 		this.errorMessageList = errorMessageList;
 	}
 }

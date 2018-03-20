@@ -2,7 +2,6 @@ package com.nwm.springbootweb.rest;
 
 import com.nwm.springbootweb.model.Record;
 import com.nwm.springbootweb.processor.RecordProcessor;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -45,22 +44,20 @@ public class RecordRestController {
 		RestResponse<Record> response = new RestResponse<Record>(
 				RestResponse.Status.OK,
 				request.getRequestURL().toString(),
-				new Date(),
 				r);
 		
 		return response;
 	}
 	
 	@PostMapping("/list")
-	public RestResponse<List<Record>> getRecordList() throws Exception {
+	public RestResponse<List<Record>> getRecordList(@RequestBody String sortOption) throws Exception {
 		logger.info("********** /list");
 		
-		List<Record> list = processor.getList();
+		List<Record> list = processor.getList(sortOption);
 		
 		RestResponse<List<Record>> response = new RestResponse<List<Record>>(
 				RestResponse.Status.OK,
 				request.getRequestURL().toString(),
-				new Date(),
 				list);
 		
 		return response;
@@ -74,8 +71,7 @@ public class RecordRestController {
 		
 		RestResponse<Record> response = new RestResponse<Record>(
 				RestResponse.Status.OK,
-				request.getRequestURL().toString(),
-				new Date());
+				request.getRequestURL().toString());
 		
 		return response;
 	}
@@ -88,8 +84,7 @@ public class RecordRestController {
 		
 		RestResponse<Record> response = new RestResponse<Record>(
 				RestResponse.Status.OK,
-				request.getRequestURL().toString(),
-				new Date());
+				request.getRequestURL().toString());
 		
 		return response;
 	}
@@ -102,8 +97,7 @@ public class RecordRestController {
 		
 		RestResponse<Record> response = new RestResponse<Record>(
 				RestResponse.Status.OK,
-				request.getRequestURL().toString(),
-				new Date());
+				request.getRequestURL().toString());
 		
 		return response;
 	}
